@@ -1,5 +1,6 @@
 import { Patient, ExplanationOfBenefit } from 'fhir/r4';
 import React, { useEffect, useMemo, useState } from 'react';
+import { LoadingText } from './Loading';
 
 export interface EOBProps {
     patient?: Patient;
@@ -8,7 +9,7 @@ export interface EOBProps {
 
 export function DisplayEOB({ patient, accessToken }: EOBProps) {
     const [EOB, setEOB] = useState<Array<ExplanationOfBenefit>>([]);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const fetchExplanationOfBenefit = async () => {
         setLoading(true)
@@ -34,24 +35,23 @@ export function DisplayEOB({ patient, accessToken }: EOBProps) {
         }
     }, [patient])
 
-    if (loading) {
-        return <h3>Loading Explanation of Benefits</h3>
-    }
-    else {
-        return (
-            <div>
-                <h2 style={{ padding: "15px" }}>Explanation of Benefits</h2>
-                {EOB.map((entry) => (
-                    <div style={{ borderWidth: "3px", padding: "15px", borderStyle: "solid", borderColor: "black" }} key={entry.id}>
-                        <h4 >ID: {entry.id}</h4>
-                        <p>Provider: {entry.provider.display}</p>
-                        <p>Perscription: {entry.prescription?.display}</p>
-                        <p>Insurer: {entry.insurer.display}</p>
-                        <p>Last Updated: {entry.meta?.lastUpdated}</p>
-                    </div>
-                ))}
-            </div>
-        )
-    }
+    return (
+        <>
+            {loading ? (<LoadingText text='Explanation of Benefits' />) :
+                <div>
 
+                    <h2 style={{ padding: "15px" }}>Explanation of Benefits</h2>
+                    {EOB.map((entry) => (
+                        <div style={{ borderWidth: "3px", padding: "15px", borderStyle: "solid", borderColor: "black" }} key={entry.id}>
+                            <h4 >ID: {entry.id}</h4>
+                            <p>Provider: {entry.provider.display}</p>
+                            <p>Perscription: {entry.prescription?.display}</p>
+                            <p>Insurer: {entry.insurer.display}</p>
+                            <p>Last Updated: {entry.meta?.lastUpdated}</p>
+                        </div>
+                    ))}
+                </div>
+            }
+        </>
+    )
 }

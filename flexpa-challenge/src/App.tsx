@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { Patient} from 'fhir/r4';
+import { Patient } from 'fhir/r4';
 import { DisplayEOB } from './DisplayEOB';
+import { LoadingText } from './Loading';
 
 declare const FlexpaLink: {
   create: (config: FlexpaCreate) => Record<string, unknown>,
@@ -92,32 +93,22 @@ function App() {
     FlexpaLink.open();
   }
 
-  if (loading) {
-    return (
-    <div className="App">
-    <h3> Loading your Patient Data! </h3>
-    </div>
-    )
-   }
-
-  // display information if access token is already set
-  else if (patient && accessToken) {
-    return (
+  // Show link page if the user doesn't already have an access token
+  return (
+    <>
       <div className="App">
-      <DisplayEOB patient={patient} accessToken={accessToken} />
+        {loading ? <LoadingText text='Patient Data' /> :
+          // display information if access token is already set
+          (patient && accessToken) ? <DisplayEOB patient={patient} accessToken={accessToken} /> :
+            <div>
+              <h3 style={{ fontSize: "70px", fontWeight: "600" }}> Rohil Health</h3>
+              <p>Before we can display your health information, you need to link your health data with Rohil Health</p>
+              <button style={{ backgroundColor: "transparent", width: 500, fontSize: 20, height: 50 }} onClick={handleOpen}>Link My Plan Data</button>
+            </div>
+        }
       </div>
-    )
-  }
-  else {
-    // Show link page if the user doesn't already have an access token
-    return (
-      <div className="App">
-        <h3 style={{ fontSize: "70px", fontWeight: "600" }}> Rohil Health</h3>
-        <p>Before we can display your health information, you need to link your health data with Rohil Health</p>
-        <button style={{ backgroundColor: "transparent", width: 500, fontSize: 20, height: 50 }} onClick={handleOpen}>Link My Plan Data</button>
-      </div>
-    );
-  }
+    </>
+  );
 }
 
 export default App;
