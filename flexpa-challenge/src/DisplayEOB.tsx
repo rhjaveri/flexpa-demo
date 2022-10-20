@@ -21,10 +21,16 @@ export function DisplayEOB({ patient, accessToken }: EOBProps) {
                     authorization: `Bearer ${accessToken}`,
                 },
             });
-            let fhirResponseBody = await fhirExplanationResp.json()
-            let resourceList: Array<ExplanationOfBenefit> = fhirResponseBody.entry?.map((entry: any) => entry.resource as ExplanationOfBenefit | undefined);
-            let benefitsList: Array<ExplanationOfBenefit> = resourceList.filter(resource => resource.resourceType === 'ExplanationOfBenefit');
-            setEOB(benefitsList);
+            if (fhirExplanationResp.status === 200) {
+                let fhirResponseBody = await fhirExplanationResp.json()
+                let resourceList: Array<ExplanationOfBenefit> = fhirResponseBody.entry?.map((entry: any) => entry.resource as ExplanationOfBenefit | undefined);
+                let benefitsList: Array<ExplanationOfBenefit> = resourceList.filter(resource => resource.resourceType === 'ExplanationOfBenefit');
+                setEOB(benefitsList);
+            }
+            else {
+                console.log("Error Retrieving Explanation of Benefits!")
+            }
+
         }
         setLoading(false)
     }
