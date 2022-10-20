@@ -27,7 +27,7 @@ To get started, first download all npm packages and set up the environment
 $ cd flexpa-challenge
 $ npm install 
 ```
-In an .env file, add the following variables
+In an .env file in this folder, add the following variables
 - REACT_APP_PUBLISHABLE_KEY=pk_test_YOUR_PUBLISHABLE_KEY
 - REACT_APP_SERVER_URL=http://127.0.0.1:5000
 - REACT_APP_FHIR_URL=https://api.flexpa.com/fhir
