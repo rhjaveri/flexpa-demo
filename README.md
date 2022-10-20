@@ -8,7 +8,7 @@ Before you can run the server, you'll want to set up a Python virtual environmen
 $ cd flexpa-server
 $ python3 -m venv flexpa-env
 $ source flexpa-env/bin/activate
-$ pip install
+$ pip install -r requirements.txt
 ```
 Next, you need to add an .env to the flexpa-server folder. 
 In an .env file, add the secret key retrieved from your Flexpa Organization Account
