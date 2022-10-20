@@ -7,7 +7,7 @@ Before you can run the server, you'll want to set up a Python virtual environmen
 ```
 $ cd flexpa-server
 $ python3 -m venv flexpa-env
-$ flexpa-env/bin/activate
+$ source flexpa-env/bin/activate
 $ pip install
 ```
 Next, you need to add an .env to the flexpa-server folder. 
